@@ -32,12 +32,39 @@ const App = () => {
   const [data, setData] = useState(null);
   const [location, setLocation] = useState("Bogota");
   const [inputValue, setInputValue] = useState("");
+  const [animate, setAnimate] = useState(false);
 
   const handleInput = (e) => {
     setInputValue(e.target.value);
   };
 
-  console.log(inputValue);
+  const handleSubmit = (e) => {
+    console.log(inputValue);
+    //if input values is not empty
+    if (inputValue !== "") {
+      //set location
+      setLocation(inputValue);
+    }
+
+    //select input
+    const input = document.querySelector("input");
+
+    //if input value is empty
+    if (input.value === "") {
+      //set animate true
+      setAnimate(true);
+      //after 500ms set animate to false
+      setTimeout(() => {
+        setAnimate(false);
+      }, 500);
+    }
+
+    //clear input
+    input.value = "";
+
+    //prevent defaults
+    e.preventDefault();
+  };
 
   //fetch the data
   useEffect(() => {
@@ -92,7 +119,11 @@ const App = () => {
   return (
     <div className="w-full h-screen bg-gradientBg bg-no-repeat bg-cover bg-center flex flex-col items-center justify-center px-4 lg:px-0">
       {/* form */}
-      <form className="h-16 bg-black/30 w-full max-w-[450px] rounded-full backdrop:blur-[32px] mb-8">
+      <form
+        className={`${
+          animate ? "animate-shake" : "animate-none"
+        } h-16 bg-black/30 w-full max-w-[450px] rounded-full backdrop:blur-[32px] mb-8`}
+      >
         <div className="h-full relative flex items-center justify-between p-2">
           <input
             onChange={(e) => handleInput(e)}
@@ -100,7 +131,10 @@ const App = () => {
             type="text"
             placeholder="Search by city or country"
           />
-          <button className="bg-[#1ab8ed] hover:bg-[#15abdd] w-20 h-12 rounded-full flex justify-center items-center transition">
+          <button
+            onClick={(e) => handleSubmit(e)}
+            className="bg-[#1ab8ed] hover:bg-[#15abdd] w-20 h-12 rounded-full flex justify-center items-center transition"
+          >
             <IoMdSearch className="text-2xl text-white" />
           </button>
         </div>
