@@ -134,6 +134,9 @@ const App = () => {
     case "Thunders":
       icon = <IoMdThunderstorm />;
       break;
+    default:
+      icon = undefined;
+      break;
   }
 
   //date object
